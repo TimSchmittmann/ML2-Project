@@ -1,0 +1,4 @@
+emoji==0.5.1
+langdetect==1.0.7
+regex==2018.08.29
+python_twitter==3.4.2
