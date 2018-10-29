@@ -5,3 +5,5 @@ venv/
 __pycache__/
 data/
 .settings/
+py2ipynb-test.py
+.ipynb_checkpoints/
