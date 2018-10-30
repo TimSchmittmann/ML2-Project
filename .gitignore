@@ -7,3 +7,4 @@ data/
 .settings/
 .ipynb_checkpoints/
 py2ipynb-test.py
+.idea/
