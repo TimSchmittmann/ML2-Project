@@ -2,8 +2,8 @@ import emoji
 import regex
 import csv
         
-tweet_file = "data/german_tweets_text_id_only_387627_samples.csv"
-emoji_cnt_file = "data/emoji_cnt_from_387627_samples.csv"
+tweet_file = "data/german_tweets_text_id_only_q2_597549_samples.csv"
+emoji_cnt_file = "data/emoji_cnt_from_q2_597549_samples.csv"
 
 def split_count(text):
 
