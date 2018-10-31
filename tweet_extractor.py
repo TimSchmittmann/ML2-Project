@@ -13,11 +13,24 @@ api = twitter.Api(consumer_key=config.CONSUMER_KEY,
                   access_token_key=config.ACCESS_TOKEN,
                   access_token_secret=config.ACCESS_TOKEN_SECRET)
 
+read_csv = "data/emoji_cnt_from_q2_597549_samples.csv"
+emojis = []
+
+with open(tweet_file, 'r', encoding='utf-8', newline='') as csvfile:
+    reader = csv.reader(csvfile, delimiter=';')
+    for row in reader:
+        emojis.append(row[0])
+
+print(emojis)
+sys.exit(0)
+
 write_csv = "data/german_tweets_text_id_only_q2.csv"
 maxId = 1057102141435899904
 minId = False
 maxLen = 0
 maxLenID = 0
+
+j = 0
 #tweets = []
 with open(write_csv, 'a', encoding='utf-8', newline='', buffering=1) as csvfile:
     writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=['id', 'text'],
@@ -26,7 +39,8 @@ with open(write_csv, 'a', encoding='utf-8', newline='', buffering=1) as csvfile:
 
 #    fieldnames = set()
     for i in range(999999999):
-        query = "lang=de&q=das%20OR%20ist%20OR%20du%20OR%20ich%20OR%20nicht%20OR%20die%20OR%20es%20OR%20und%20OR%20sie%20OR%20der%20OR%20was%20OR%20wir%20OR%20zu%20OR%20ein%20OR%20er%20OR%20in%20OR%20mir%20OR%20mit%20OR%20ja%20OR%20wie%20OR%20den%20OR%20auf%20OR%20mich%20OR%20dass%20OR%20so%20OR%20hier%20OR%20eine%20OR%20wenn%20OR%20hat%20OR%20all%20OR%20sind%20OR%20von%20OR%20dich%20OR%20war%20OR%20haben%20OR%20für%20OR%20an%20OR%20habe%20OR%20da%20OR%20nein%20OR%20bin%20OR%20noch%20OR%20dir%20OR%20uns%20OR%20sich%20OR%20nur%20-filter%3Aretweets%20-filter%3Areplies&result_type=recent&count=100"
+        q = "%20OR%20".join(emojis[j:(j + 1) * 20])
+        query = "lang=de&q="+q+"%20-filter%3Aretweets%20-filter%3Areplies&result_type=recent&count=100"
         #query = "lang=de&q=a%20OR%20b%20OR%20c%20OR%20d%20OR%20e%20OR%20f%20OR%20g%20OR%20h%20OR%20i%20OR%20j%20OR%20k%20OR%20l%20OR%20m%20OR%20n%20OR%20o%20OR%20p%20OR%20q%20OR%20r%20OR%20s%20OR%20t%20OR%20u%20OR%20v%20OR%20w%20OR%20x%20OR%20y%20OR%20z%20-filter%3Aretweets%20-filter%3Areplies&result_type=recent&count=100"
         if maxId is not False:
             query += "&max_id="+str(maxId)
