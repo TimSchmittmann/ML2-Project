@@ -1,9 +1,9 @@
 import emoji
 import regex
 import csv
-        
-tweet_file = "data/german_tweets_text_id_only_q2_597549_samples.csv"
-emoji_cnt_file = "data/emoji_cnt_from_q2_597549_samples.csv"
+
+tweet_file = "data/emoji_tweets/all_emoji_tweets_02_11_18_sorted_3.csv"
+emoji_cnt_file = "data/emoji_count_all_emoji_tweets_02_11_18.csv"
 
 def split_count(text):
 
@@ -22,20 +22,20 @@ def count_emojis_in_tweets(tweet_file):
         reader = csv.reader(csvfile, delimiter=';')
         i = 0
         for row in reader:
-            if i == 0:
+            if i == 0 or len(row) < 2:
                 i += 1
                 continue
             #print(', '.join(row))
             line = [row[1]]
-        
+
             counter = split_count(line[0])
             unique_counter = {}
             for emoji in counter:
-                unique_counter[emoji] = 1 
+                unique_counter[emoji] = 1
             for emoji in unique_counter:
                 if emoji not in emoji_cnt:
                     emoji_cnt[emoji] = 0
-                emoji_cnt[emoji] += 1    
+                emoji_cnt[emoji] += 1
             '''
             i += 1
             if i > 100:
