@@ -112,7 +112,7 @@ def build_request_query(min_id, max_id, query_emojis):
         query += "&since_id="+str(min_id)
     return query
 
-def request_tweets(min_id, max_id, query_emojis, write_cb, nr_of_requests = 720):
+def request_tweets(min_id, max_id, query_emojis, write_cb, nr_of_requests = 999999):
     for i in range(nr_of_requests):
         print("Request "+str(i))
         query = build_request_query(min_id, max_id, query_emojis)
