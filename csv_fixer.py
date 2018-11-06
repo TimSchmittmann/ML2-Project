@@ -11,8 +11,34 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import sparse_dot_topn.sparse_dot_topn as ct
 from scipy.sparse import csr_matrix
+import emoji_mapper
 #import sparse_dot_topn.sparse_dot_topn as ct
 
+def extract_emoji_labels(csv_to_fix, read_ext, write_ext):
+    tweets = {}
+    emoji_mappings = emoji_mapper.get_emoji_mappings(emoji_mapper.emoji_mappings_file)
+    with open(csv_to_fix+read_ext, 'r', encoding='utf-8', newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        i = 0
+        with open(csv_to_fix+write_ext, 'w', encoding='utf-8', newline='', buffering=1) as fixedcsv:
+            writer = csv.writer(fixedcsv, delimiter=';',
+                            quoting=csv.QUOTE_MINIMAL)
+
+            for row in reader:
+                if i == 0:
+                    i += 1
+                    continue
+                #print(', '.join(row))
+                i += 1
+                row.append(set())
+                counter = emoji_mapper.split_count(row[1])
+                for emoji in counter:
+                    try:
+                        row[1] = row[1].replace(emoji, '')
+                        row[-1].add(emoji_mappings[emoji])
+                    except Exception as e:
+                        pass
+                writer.writerow(row)
 
 def ngrams(string, n=3):
     string = re.sub(r'[,-./]|\sBD',r'', string)
@@ -172,11 +198,10 @@ fixed_line_endings_ext = "_fixed_line_endings_1.csv"
 deduplicated_ext = "_deduplicated_2.csv"
 sorted_ext = "_sorted_3.csv"
 similar_removed_ext = "_removed_similar_4.csv"
-#write_ext = "_levenshtein_4.csv"
-#remove_header_rows(csv_to_fix, read_initial_ext, fixed_ext)
-remove_linebreaks(csv_to_fix, read_initial_ext, fixed_line_endings_ext)
-remove_duplicates(csv_to_fix, fixed_line_endings_ext, deduplicated_ext)
-sort_by_tweet_id(csv_to_fix, deduplicated_ext, sorted_ext)
-#remove_by_levenshtein(csv_to_fix, read_ext, write_ext)
-remove_similar(csv_to_fix, sorted_ext, similar_removed_ext)
+labels_extracted_ext = "_labels_extracted_5.csv"
+#remove_linebreaks(csv_to_fix, read_initial_ext, fixed_line_endings_ext)
+#remove_duplicates(csv_to_fix, fixed_line_endings_ext, deduplicated_ext)
+#sort_by_tweet_id(csv_to_fix, deduplicated_ext, sorted_ext)
+#remove_similar(csv_to_fix, sorted_ext, similar_removed_ext)
 #show_similar_tweets_example(csv_to_fix, sorted_ext)
+extract_emoji_labels(csv_to_fix, similar_removed_ext, labels_extracted_ext)
