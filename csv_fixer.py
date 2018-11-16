@@ -1,6 +1,8 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+'''
 
+@author: Tim Schmittmann
+'''
 import csv
 import numpy as np
 import pandas as pd
@@ -11,8 +13,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import sparse_dot_topn.sparse_dot_topn as ct
 from scipy.sparse import csr_matrix
-#import sparse_dot_topn.sparse_dot_topn as ct
-
+import emoji_helper
 
 def ngrams(string, n=3):
     string = re.sub(r'[,-./]|\sBD',r'', string)
@@ -166,17 +167,64 @@ def remove_by_levenshtein(csv_to_fix, read_ext, write_ext):
         if len(duplicates.index) > 1:
             print(duplicates)
 
-csv_to_fix = "data/emoji_tweets/all_emoji_tweets_06_11_18"
-read_initial_ext = ".csv"
-fixed_line_endings_ext = "_fixed_line_endings_1.csv"
-deduplicated_ext = "_deduplicated_2.csv"
-sorted_ext = "_sorted_3.csv"
-similar_removed_ext = "_removed_similar_4.csv"
-#write_ext = "_levenshtein_4.csv"
-#remove_header_rows(csv_to_fix, read_initial_ext, fixed_ext)
-remove_linebreaks(csv_to_fix, read_initial_ext, fixed_line_endings_ext)
-remove_duplicates(csv_to_fix, fixed_line_endings_ext, deduplicated_ext)
-sort_by_tweet_id(csv_to_fix, deduplicated_ext, sorted_ext)
-#remove_by_levenshtein(csv_to_fix, read_ext, write_ext)
-remove_similar(csv_to_fix, sorted_ext, similar_removed_ext)
-#show_similar_tweets_example(csv_to_fix, sorted_ext)
+def exclude_emoji_labels(csv_to_fix, read_ext, write_ext, emoji_excludes):
+    with open(csv_to_fix+write_ext, 'w', encoding='utf-8', newline='', buffering=1) as fixedcsv:
+        writer = csv.writer(fixedcsv, delimiter=';',
+                        quoting=csv.QUOTE_MINIMAL)
+        with open(csv_to_fix+read_ext, 'r', encoding='utf-8', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            i = 0
+            for row in reader:
+                i += 1
+                if i == 1 or len(row) < 2:
+                    continue
+                cleaned_labels = set()
+                for emoji in row[-1].split(','):
+                    if emoji not in emoji_excludes:
+                        cleaned_labels.add(emoji)
+                row[-1] = ','.join(cleaned_labels)
+                writer.writerow(row)
+
+def map_emoji_labels(csv_to_fix, read_ext, write_ext, emoji_mappings_file):
+    emoji_mappings = emoji_helper.get_emoji_mappings(emoji_mappings_file)
+    with open(csv_to_fix+write_ext, 'w', encoding='utf-8', newline='', buffering=1) as fixedcsv:
+        writer = csv.writer(fixedcsv, delimiter=';',
+                        quoting=csv.QUOTE_MINIMAL)
+        with open(csv_to_fix+read_ext, 'r', encoding='utf-8', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            i = 0
+            for row in reader:
+                i += 1
+                if i == 1 or len(row) < 2:
+                    continue
+                mapped_labels = set()
+                for emoji in row[-1].split(','):
+                    try:
+                        mapped_labels.add(emoji_mappings[emoji])
+                    except Exception:
+                        mapped_labels.add(emoji)
+                row[-1] = ','.join(mapped_labels)
+                writer.writerow(row)
+                
+def extract_emoji_labels(csv_to_fix, read_ext, write_ext):
+    with open(csv_to_fix+write_ext, 'w', encoding='utf-8', newline='', buffering=1) as fixedcsv:
+        writer = csv.writer(fixedcsv, delimiter=';',
+                        quoting=csv.QUOTE_MINIMAL)
+        with open(csv_to_fix+read_ext, 'r', encoding='utf-8', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            i = 0
+            for row in reader:
+                i += 1
+                if i == 1 or len(row) < 2:
+                    continue
+                labels = set()
+                counter = emoji_helper.split_count(row[1])
+                for emoji in counter:
+                    try:
+                        row[1] = row[1].replace(emoji, '')
+                        emoji = emoji.strip(u'\u200d')
+                        labels.add(emoji)
+                    except Exception:
+                        pass
+                row.append(','.join(labels))
+                writer.writerow(row)
