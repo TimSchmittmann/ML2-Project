@@ -176,7 +176,8 @@ def exclude_emoji_labels(csv_to_fix, read_ext, write_ext, emoji_excludes):
             i = 0
             for row in reader:
                 i += 1
-                if i == 1 or len(row) < 2:
+                if i == 1:
+                    writer.writerow(row)
                     continue
                 cleaned_labels = set()
                 for emoji in row[-1].split(','):
@@ -195,7 +196,8 @@ def map_emoji_labels(csv_to_fix, read_ext, write_ext, emoji_mappings_file):
             i = 0
             for row in reader:
                 i += 1
-                if i == 1 or len(row) < 2:
+                if i == 1:
+                    writer.writerow(row)
                     continue
                 mapped_labels = set()
                 for emoji in row[-1].split(','):
