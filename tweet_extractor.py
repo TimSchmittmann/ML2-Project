@@ -1,5 +1,9 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+'''
+
+@author: Tim Schmittmann
+'''
+
 from __future__ import print_function
 import twitter
 import time
@@ -18,7 +22,7 @@ api = twitter.Api(consumer_key=config.CONSUMER_KEY,
                   access_token_key=config.ACCESS_TOKEN,
                   access_token_secret=config.ACCESS_TOKEN_SECRET)
 
-emoji_cnt_csv_path = "data/emoji_cnt_from_q2_597549_samples_modified_for_requests.csv"
+emoji_cnt_csv_path = "data/manual-settings/emoji_cnt_used_for_twitter_api_requests.csv"
 tweets_write_csv_base_path = "data/emoji_tweets/tweets_q3_emojis_"
 tweets_write_csv_ext = ".csv"
 mode = Mode.RECENT
@@ -112,7 +116,7 @@ def build_request_query(min_id, max_id, query_emojis):
         query += "&since_id="+str(min_id)
     return query
 
-def request_tweets(min_id, max_id, query_emojis, write_cb, nr_of_requests = 720):
+def request_tweets(min_id, max_id, query_emojis, write_cb, nr_of_requests = 999999):
     for i in range(nr_of_requests):
         print("Request "+str(i))
         query = build_request_query(min_id, max_id, query_emojis)
