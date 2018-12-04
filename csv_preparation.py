@@ -9,13 +9,13 @@ import emoji_helper
 import csv_fixer
 import emoji_statistics
 
-start_at = 6
+start_at = 0
 
 # important settings. Excludes and Mappings are done by hand
 excludes_filepath = "data/manual-settings/emojis_to_exclude_1.csv"
 # careful, this file gets overwritten by write_missing_emojis_in_mapping_file
 emoji_mappings_filepath = "data/manual-settings/emoji_mappings_2.csv"
-csv_to_fix = "data/trainingssets/all_emoji_tweets_15_11_18"
+csv_to_fix = "data/trainingssets/all_emoji_tweets_29_11_18"
 emoji_cnt_infix = "_emoji_cnt"
 
 # less important. Filenames for auto-generated files

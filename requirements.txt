@@ -1,4 +1,12 @@
+Cython==0.29
+numpy==1.15.4+mkl
+setuptools==40.4.3
+pandas==0.23.4
 emoji==0.5.1
+nltk==3.3
+scipy==1.1.0
+editdistance==0.5.2
 langdetect==1.0.7
-regex==2018.08.29
-python_twitter==3.4.2
+regex==2018.11.22
+scikit_learn==0.20.1
+python_twitter==3.5
