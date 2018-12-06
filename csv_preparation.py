@@ -15,7 +15,7 @@ start_at = 0
 excludes_filepath = "data/manual-settings/emojis_to_exclude_1.csv"
 # careful, this file gets overwritten by write_missing_emojis_in_mapping_file
 emoji_mappings_filepath = "data/manual-settings/emoji_mappings_2.csv"
-csv_to_fix = "data/trainingssets/all_emoji_tweets_29_11_18"
+csv_to_fix = "data/trainingssets/all_emoji_tweets_03_12_18"
 emoji_cnt_infix = "_emoji_cnt"
 
 # less important. Filenames for auto-generated files

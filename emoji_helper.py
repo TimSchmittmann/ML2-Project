@@ -128,7 +128,7 @@ def get_emoji_excludes_from_file(emoji_excludes_file):
 
 if __name__ == '__main__':
     t1 = time.time()
-    write_missing_emojis_in_mapping_file(tweet_file, emoji_mappings_file)
+    #write_missing_emojis_in_mapping_file(tweet_file, emoji_mappings_file)
     #emoji_mappings = get_emoji_mappings(emoji_mappings_file)
 #     tweets = map_emojis_in_tweets(tweet_file, emoji_mappings)
     #print(tweets)
