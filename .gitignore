@@ -3,7 +3,6 @@ config.py
 .project
 venv/
 __pycache__/
-data/
 .settings/
 .ipynb_checkpoints/
 py2ipynb-test.py
