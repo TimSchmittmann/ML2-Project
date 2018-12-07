@@ -4,7 +4,9 @@
 Selbstgewählte Aufgabenstellung im Rahmen der Veranstaltung [Praktikum Machine Learning 2](https://cvl.inf.tu-dresden.de/praktikum-machine-learning-2/) der TU Dresden.
 
 Gruppe: GodPutASmileUponYourFace
+
 Mitglieder: Sebastian Riechert, Tim Schmittmann, Suraka Al Baradan
+
 Problemart: Classification, Sentiment Analysis
 
 ## Installation
@@ -86,6 +88,7 @@ Folgende Arbeitsschritte werden dann nach jedem Update mit diesen 34 CSV Daten i
 Um auf den Daten überwachte Lernverfahren zur Klassifizierung trainieren zu können, muss der natürlichsprachige Text in Feature-Vektoren kodiert werden. Bevor dies geschehen kann, müssen die Daten weitere Vorverarbeitungsschritte durchgehen:
 * Bereinigung von Sonderzeichen, und Formatierungsartefakten durch regular expressions und
 * Tokenisierung der Tweets für Entfernung von Stopwords und Stemming
+
 Außerdem werden alle Jahreszahlen auf einen speziellen Jahreszahl-Token gemappt, und alle restlichen Zahlen auf einen speziellen Zahl-Token gemappt.
 Anschließend werden alle Tweets auf Wortebene mittels einem CountVectorizer zu Feature-Vektoren transformiert. In dieser Kodierung bleibt für jeden Tweet die Information enthalten, welche Wörter er enthält und wie oft diese Wörter jeweils in diesem Tweet vorkommen. Grammatikalische Zusammenhänge (Reihenfolge der Wörter und Satzstruktur) und semantische (zb. Ähnlichkeit von “Ich” und “mir” oder “schön” und “toll”) werden in dieser Darstellungsform nicht abgebildet. Diese “Bag of Words”-Kodierung wird für Modelle, die direkt für den Umgang mit diskreten Features gedacht sind (zb. multinomialer Naive Bayes Classifier) genutzt. Für alle anderen Classifier wurde vorerst die “Term-Frequency-Inverse-Document-Frequency”-Kodierung genutzt, welche eine normalisierte Form von “Bag of Words” darstellt.
 Für beide Kodierungen wurden mittels einer PCA (genauer genommen mit einer singular-value-decomposition, da die Daten im Bag-of-Words/TF-IDF als sparse-matrix gespeichert werden 
@@ -125,10 +128,11 @@ Die folgende Abbildung zeigt eine PCA für das Word2Vec-Embedding:
 
 Die Klassen sehen auch hier nicht wesentlich besser trennbar als zuvor aus. Folgende Tabelle zeigt die Performanz der Modelle, wenn die Word2Vec-Kodierung genutzt wird. 
 
-| 	                     | multinomial naive bayes classifier | sgdclassifier | random forest classifier |
+| 	                      | multinomial naive bayes classifier | sgdclassifier | random forest classifier |
 | ---------------------- | ---------------------------------- | ------------- | ------------------------ |
 | 1 vs 1                 | NULL                               | 0.7334        | 0.6562                   |
 | multiclass (5 classes) | NULL                               | 0.4599        | 0.2938                   |
+
 *Anmerkung: der multinomial naive bayes classifier funktioniert nicht mit dieser Kodierung, er funktioniert nur bei Inputfeatures mit positiven, diskreten Feature-Ausprägungen.
 
 
