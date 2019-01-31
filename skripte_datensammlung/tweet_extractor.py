@@ -22,8 +22,8 @@ api = twitter.Api(consumer_key=config.CONSUMER_KEY,
                   access_token_key=config.ACCESS_TOKEN,
                   access_token_secret=config.ACCESS_TOKEN_SECRET)
 
-emoji_cnt_csv_path = "data/manual_settings/emoji_cnt_used_for_twitter_api_requests.csv"
-tweets_write_csv_base_path = "data/emoji_tweets/tweets_q3_emojis_"
+emoji_cnt_csv_path = "../data/manual_settings/emoji_cnt_used_for_twitter_api_requests.csv"
+tweets_write_csv_base_path = "../data/emoji_tweets/tweets_q3_emojis_"
 tweets_write_csv_ext = ".csv"
 mode = Mode.RECENT
 

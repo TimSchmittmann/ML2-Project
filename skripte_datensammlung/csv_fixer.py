@@ -48,7 +48,7 @@ def remove_similar(csv_to_fix, read_ext, write_ext):
 
     t1 = time.time()
     #Empirisch bestimmte Parameter
-    matches = awesome_cossim_top(tf_idf_matrix, tf_idf_matrix.transpose(), 2000, 0.5)
+    matches = awesome_cossim_top(tf_idf_matrix, tf_idf_matrix.transpose(), 100, 0.5)
     print("Time after cossim: ",time.time() - t1,"s")
 
     indices_to_drop = []
@@ -58,7 +58,7 @@ def remove_similar(csv_to_fix, read_ext, write_ext):
             indices_to_drop.append(non_zeroes[1][i])
     indices_to_drop = set(indices_to_drop)
 
-    print(indices_to_drop)
+    #print(indices_to_drop)
     print(len(indices_to_drop))
 
 

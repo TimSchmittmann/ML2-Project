@@ -7,3 +7,4 @@ __pycache__/
 .ipynb_checkpoints/
 py2ipynb-test.py
 .idea/
+data/emoji_tweets/tweets_q3_emojis_*
