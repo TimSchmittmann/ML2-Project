@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from joblib import load
 import numpy as np
@@ -5,6 +6,8 @@ import pandas as pd
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.naive_bayes import MultinomialNB
+from skmultilearn.problem_transform import ClassifierChain
+from skmultilearn.problem_transform import LabelPowerset
 import bottleneck as bn
 import nltk
 import string
@@ -93,6 +96,11 @@ clf = load('grid_classifier_chain_multinomial_nb_reduced_2_handpicked_labels.job
 vectorizer = load('vectorizer_reduced_2_handpicked_labels.joblib')
 mlb = load('mlb_reduced_2_handpicked_labels.joblib')
 app = Flask(__name__)
+port = int(os.environ.get('PORT', 33507))
+
+@app.route('/',methods=['GET'])
+def hello_world():
+	return "Hello world"
 
 @app.route('/get-predictions',methods=['POST'])
 def get_predictions():
@@ -112,3 +120,5 @@ def get_predictions():
 	predicted_labels = sparse_to_emoji_array(predicted, mlb.classes_)
 	return json.dumps(predicted_labels[0])
 	
+if __name__ == "__main__":
+	app.run(host='0.0.0.0', port=port)
