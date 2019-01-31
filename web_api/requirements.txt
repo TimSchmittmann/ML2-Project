@@ -1,0 +1,8 @@
+nltk==3.3
+Flask==1.0.2
+pandas==0.23.4
+scikit_multilearn==0.2.0
+Bottleneck==1.2.1
+numpy==1.15.4
+joblib==0.13.1
+scikit_learn==0.20.1
